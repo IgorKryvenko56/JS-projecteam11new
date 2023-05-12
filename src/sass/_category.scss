@@ -5,10 +5,12 @@
 
   
   .categories-list {
-    display: block;
     height: 228px;
-    overflow: auto;
     width: 335px;
+    display: block;
+    overflow: auto;
+    margin-left: auto;
+    margin-right: auto;
   }
   
   /* scrollbar */
@@ -55,13 +57,13 @@
   
     color: var(--active-category-color);
   }
-  
-  @media screen and (min-width: 768px) {
+   @media screen and (min-width: 768px) {
     .categories-list {
       width: 337px;
       height: 472px;
+      margin-left: 0;
+      margin-right: 0;
     }
-  
     .categories-list::-webkit-scrollbar {
       height: 167px;
     }
@@ -80,8 +82,12 @@
     .category-item:not(:last-child) {
       margin-bottom: 32px;
     }
-  }
   
+  aside {
+ 
+     flex-direction: initial;
+ }
+}  
   @media screen and (min-width: 1440px) {
     .categories-section {
       padding-bottom: 86px;
@@ -98,6 +104,7 @@
   }
 
 aside {
+  padding-right: 24px;
     padding-left: 24px;
     display: flex;
     flex-direction: column;
@@ -124,6 +131,10 @@ aside {
         }
     }
 
+    .name-books-shops img {
+width: 20px;
+height: 20px;
+    }
 
 
     // ==========================================
@@ -133,3 +144,5 @@ aside {
             padding-top: 104px;
            }
          }
+
+
