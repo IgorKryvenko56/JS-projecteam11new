@@ -28,13 +28,7 @@
   .categories-list::-webkit-scrollbar-thumb:hover {
     background-color: var(--light-grey);
   }
-  aside {
-  padding-right: 24px;
-    padding-left: 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 86px;
-}
+ 
  
   .categories-item {
     font-family: 'DM Sans';
@@ -103,6 +97,14 @@
       width: 356px;
       height: 472px;
     }
+   aside {
+    padding-right: 24px;
+    padding-left: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 86px;
+}
+  
   }
 
   main {
