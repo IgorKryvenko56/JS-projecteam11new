@@ -32,10 +32,30 @@
   position: relative;
 }
 
-.book-cover {
+.img-book {
   width: 192px;
   height: 281px;
   border-radius: 8px;
+}
+
+.description-info {
+  width: 279px;
+  margin-left: 24px;
+}
+
+.content-block {
+  display: flex;
+}
+
+.shop-book {
+  display: flex;
+  padding-top: 40px;
+  align-items: center;
+}
+
+.logo-amazon {
+  width: 62px;
+  height: 19px;
 }
 
 .modal-header h2 {
@@ -94,6 +114,7 @@ strong {
   line-height: 18px;
   letter-spacing: -0.04em;
   color: var(--text-dark);
+  margin-top: 20px;
 }
 
 .js-modal-close {
