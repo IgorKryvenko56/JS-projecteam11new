@@ -13,5 +13,5 @@ import './js/modal_window_object';
 
 
 import './js/support_Ukraine';
-import './js/best_sellers_preload';
+// import './js/best_sellers_preload';
 
