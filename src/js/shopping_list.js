@@ -4,11 +4,58 @@ console.log('my_shopping-list-Серг');
 //http://localhost:1234/shopping_books.html
 
 
-import {bookList} from './shopping_data.js';
+// import {bookList} from './shopping_data.js';
+
+
 
 //     const bookList = JSON.parse(localStorage.getItem('bookList')) || [];
 //     bookList.push(bookDetails);
 //     localStorage.setItem('bookList', JSON.stringify(bookList));
+
+
+
+
+
+const keyLockal = "shoppingList";
+const shList = [
+    {
+        book_image: 'https://storage.googleapis.com/du-prd/books/images/9780063226050.jpg',
+        title: 'zxczxc',
+        list_name: 'Hardcover Fiction',
+        description: 'item-card-desc">David Burroughs was once a devoted father to his three-year-old son Matthew, living a dream life just a short drive away from the working-class suburb where he and his wife, Cheryl, first fell in love--until one fateful night when David woke suddenly to discover Matthew had been murdered while',
+        author: "Harlan Coben",
+    },
+    {
+        book_image: 'https://storage.googleapis.com/du-prd/books/images/9780063226050.jpg',
+        title: 'qweqwe',
+        list_name: 'Hardcover Fiction',
+        description: 'item-card-desc">David Burroughs was once a devoted father to his three-year-old son Matthew, living a dream life just a short drive away from the working-class suburb where he and his wife, Cheryl, first fell in love--until one fateful night when David woke suddenly to discover Matthew had been murdered while',
+        author: "Harlan Coben",
+    }
+];
+
+
+
+function saveShoppingList(shList) {
+    localStorage.setItem(keyLockal, JSON.stringify(shList));
+}
+
+// saveShoppingList(shList);
+
+
+
+
+// function saveShoppingList(shoppingList) {
+//     localStorage.setItem('shoppingList', JSON.stringify(shoppingList));
+//   }
+
+// function getShoppingList() {
+//     const shoppingList = localStorage.getItem('shoppingList');
+//     return shoppingList ? JSON.parse(shoppingList) : [];
+//   }
+
+
+
 
 // IMAGES
 import Amazon from '../images/icon/amazon.png';
@@ -18,11 +65,30 @@ import BookShop from '../images/icon/BookShop.png';
 
 // let booksLocalStorage = [1, 2, 3, 4, 5];
 
-const titleEl = document.querySelector('.shopping-title');
-titleEl.addEventListener('click', onRender);
+// const titleEl = document.querySelector('.shopping-title');
+// titleEl.addEventListener('click', onRender);
 
 let isMobileScreen = onMobileScreen(); //Мобильная версия? true. false
+
+
+
+
+
+
+const bookList = getShoppingList();
 let totalBook = bookList.length; //Всего книг в памяти
+console.log('bookList', bookList);
+
+function getShoppingList() {
+    const shoppingList = localStorage.getItem('shoppingList');
+    return shoppingList ? JSON.parse(shoppingList) : [];
+}
+
+
+
+
+
+
 let perPage = makePerPage(); //Количество книг на странице      3 / 4 
 let totalPage = Math.ceil(totalBook / perPage); //К-во страниц
 let lastPerPage = makeLastPerPage(); //Остаток книг неполной страницы
@@ -34,6 +100,9 @@ let howManyBtn = onHowManyBtn(); // Сколько кнопок TURN должн�
 let currentBtn = 1; // текущая активная кнопка
 let maxBtn = onmaxBtn(); //Максимальное ко-во кнопок  3 / 4
 
+
+
+
 console.log('totalBook', totalBook);
 console.log('perPage', perPage);
 console.log('totalPage', totalPage);
@@ -44,281 +113,96 @@ console.log('howManyBtn', howManyBtn);
 
 
 
-
-
 const shoppingListEl = document.querySelector('.shopping-list'); // render shoppinglist
 const emptyBookEl = document.querySelector('.empty-book-wrapper'); // empty-book
-const shoplistBtn = document.querySelector('.shopping-list-btn'); // Кнопки листания страниц
+
 let removeBookBtns = [];
 
 
 
 //========= TURN Page ===============
+const shoplistBtn = document.querySelector('.shopping-list-btn'); // Кнопки листания страниц
+shoplistBtn.addEventListener('click', onTurnPage);
 
-    const firstBtnEl = document.querySelector('[data-turn="first"]');
-    const secondBtnEl = document.querySelector('[data-turn="second"]');
-    const thirdBtnEl = document.querySelector('[data-turn="third"]');
-    const restBtnEl = document.querySelector('[data-turn="rest"]');
-
-    let turnBtnsArray = makeBtnsArr(); //создаем массив динамических кнопок пагинации
-    onRenderButtons(); // отображаем динамические кнопки пагинации из массива
+const turnBtnsArray = document.querySelectorAll('.turn-number');  //Массив кнопок 1234
+    
+  
+    onShowButtons(); // Отображение кнопок
+    onWriteButtons(); // Подпись кнопок
 
 
-// NEXT
-    const NextBtnEl = document.querySelector('[data-turn="next"]');
-    NextBtnEl.addEventListener('click', onTurnNextPage);
+    function onTurnPage(event) {
+        if (event.target.nodeName !== "BUTTON") {
+            console.log('мимо');
+            return;
+        }
+        const selectedBtn = event.target.dataset.turn;
+        switch(selectedBtn) {
+            case 'start':
+                onTurnStartPage();
+            break;
+            case 'prev':
+                onTurnPrevPage();
+            break;
 
-    function onTurnNextPage() {
-        if(currentPage < totalPage-1) {
-            currentPage ++;
+            case '1':
+                if(currentBtn === 1 || currentPage > currentBtn) {
+                    break;
+                }
+                turnBtnsArray[currentBtn-1].classList.remove('turn-active');//remove Color
+                currentPage -= currentBtn - 1;
+                currentBtn = 1;
+                onRender();
+                onWriteButtons();
+            break;
 
-            // Страниц больше чем кнопок
-            if(totalPage > maxBtn) {
-
-                if(currentBtn < maxBtn-1 ) { // 1 - 2/3
+            case '2':
+                if(currentBtn !== 2) {
                     turnBtnsArray[currentBtn-1].classList.remove('turn-active');//remove Color
-                    currentBtn ++;
-                    turnBtnsArray[currentBtn-1].classList.add('turn-active'); //active Color 
+                    currentPage -= currentBtn - 2;
+                    currentBtn = 2;
+                    onRender();
+                    onWriteButtons();
                 }
-                else { // currentBtn = 3
-                    let y = maxBtn-2; // 3 /4
+            break;
 
-
-                    for(let i=0; i< maxBtn; i++) {
-                        if(!i) {
-                            turnBtnsArray[i].textContent = '...';
-                        }
-                        else if(i=== maxBtn-1) {
-                            if(currentPage === totalPage - 1) {
-                                turnBtnsArray[maxBtn-1].textContent = currentPage + 1;
-                            }
-                            else {
-                                turnBtnsArray[i].textContent = '...';
-                            }
-                        }
-                        else {
-                            turnBtnsArray[i].textContent = currentPage - y;
-                        }
-                        y--;
-                    }
-
-
+            case '3':
+                if(currentBtn === 3 || ((totalPage - currentPage > maxBtn - currentBtn) && isMobileScreen)) {
+                    break;
                 }
-            }
-
-            // Страниц не более чем кнопок
-            else {
-                turnBtnsArray[currentBtn-1].classList.remove('turn-active');//remove Color
-                currentBtn ++;
-                turnBtnsArray[currentBtn-1].classList.add('turn-active'); //active Color 
-            }
-
-            console.log('currentPage', currentPage);
-            onRender();
-        }
-        else if(currentPage < totalPage) {
-            currentPage ++;
-            turnBtnsArray[currentBtn-1].classList.remove('turn-active');//remove Color
-            currentBtn ++;
-            turnBtnsArray[currentBtn-1].classList.add('turn-active'); //active Color 
-
-            console.log('currentPage', currentPage);
-            // console.log('Ляля', currentPage);
-            onRender();
-            
-        }
-    }
-
-// PREVIOS
-    const PrevBtnEl = document.querySelector('[data-turn="prev"]');
-    PrevBtnEl.addEventListener('click', onTurnPrevPage);
-
-    function onTurnPrevPage() {
-
-        // 1. Если первая Страница - Выход
-        if(currentPage === 1) {
-            console.log('фить <');
-            return
-        }
-
-        // 1. Если Страниц не более чем кнопок двигаем активацию кнопки
-        if(totalPage <= maxBtn) {
-            console.log('1.');
-            turnBtnsArray[currentBtn-1].classList.remove('turn-active');//remove Color
-            currentBtn --;
-            currentPage --;
-            turnBtnsArray[currentBtn-1].classList.add('turn-active');//active Color 
-            onRender();
-            console.log('currentBtn', currentBtn);
-            console.log('currentPage', currentPage);
-            return
-        }
-
-
-        // 2. Если Страниц  больше чем кнопок
-
-        // 2.1. Если справа (...) а с лева (1) то двигаем активацию
-        if(currentBtn === currentPage ) { // 1 - 2/3
-            console.log('2.1.');
-            turnBtnsArray[currentBtn-1].classList.remove('turn-active');//remove Color
-            currentBtn --;
-            currentPage --;
-            turnBtnsArray[currentBtn-1].classList.add('turn-active'); //active Color 
-            onRender();
-            console.log('currentBtn', currentBtn);
-            console.log('currentPage', currentPage);
-            return
-        }
-
-        // 2.2. Если справа (...) и с лева (...) 
-        // 2.2.1. Если активная кнопка рядом возде (...) с лева то двигаем текст
-        if(currentBtn > 2) {
-            console.log('2.2.1.');
-            // двигаем активацию
-            turnBtnsArray[currentBtn-1].classList.remove('turn-active');//remove Color
-            currentBtn --;
-            currentPage --;
-            turnBtnsArray[currentBtn-1].classList.add('turn-active');//active Color 
-            onRender();
-            console.log('currentBtn', currentBtn);
-            console.log('currentPage', currentPage);
-            return
-        }
-        // 2.2.2.
-        else {
-            console.log('2.2.2.');
-            // двигаем текст
-            // currentBtn --;
-            currentPage --;
-            console.log('currentBtn', currentBtn);
-            console.log('currentPage', currentPage);
-
-            for(let i=0; i< maxBtn; i++) {
-                if(!i) {
-                    if(currentPage === 2) {
-                        turnBtnsArray[0].textContent = 1;
-                    }
-                    else {
-                        turnBtnsArray[i].textContent = '...';
-                    }
-                }
-                else if(i === maxBtn-1) {
-                    turnBtnsArray[i].textContent = '...';
-                }
-
-                else {
-                    turnBtnsArray[i].textContent = currentPage +i-1;
-                }
-            }        
-            onRender();
-            return
-        }
-    }
-
-
-// START 
-    const startBtnEl = document.querySelector('[data-turn="start"]');
-    startBtnEl.addEventListener('click', onTurnStartPage);
-
-    function onTurnStartPage() {
-
-        if(currentPage < 2) {
-            console.log('Тиць');
-            return
-        }
-        else {
-            // 1. Если Страниц менее равно чем кнопок 
-            if(totalPage <= maxBtn) {
-                turnBtnsArray[currentBtn-1].classList.remove('turn-active');//remove Color
-                currentBtn = 1;
-                currentPage = 1;
-                turnBtnsArray[currentBtn-1].classList.add('turn-active');//active Color 
-                onRender();
-                console.log('currentBtn', currentBtn);
-                console.log('currentPage', currentPage);
-                return
-            }
-            // 1. Если Страниц больше чем кнопок 
-            else {
-                turnBtnsArray[currentBtn-1].classList.remove('turn-active');//remove Color
-                currentBtn = 1;
-                currentPage = 1;
-                turnBtnsArray[currentBtn-1].classList.add('turn-active');//active Color 
-
-                for(let i=0; i< maxBtn; i++) {
                 
-                    if(i === maxBtn-1) {
-                        turnBtnsArray[i].textContent = '...';
-                    }
-                    else {
-                        turnBtnsArray[i].textContent = currentPage +i;
-                    }
-                } 
-
+                turnBtnsArray[currentBtn-1].classList.remove('turn-active');//remove Color
+                currentPage -= currentBtn - 3;
+                currentBtn = 3;
                 onRender();
-                console.log('currentBtn', currentBtn);
-                console.log('currentPage', currentPage);
-                return
-            }
-           
+                onWriteButtons();
+            break;
+
+            case '4':
+                if(currentBtn === 4 || (totalPage - currentPage > maxBtn - currentBtn)) {
+                    console.log('totalPage - currentPage',totalPage - currentPage);
+                    console.log('maxBtn - currentBtn',maxBtn - currentBtn);
+                    break;
+                }
+                console.log('ok ok');
+                turnBtnsArray[currentBtn-1].classList.remove('turn-active');//remove Color
+                currentPage -= currentBtn - 4;
+                currentBtn = 4;
+                onRender();
+                onWriteButtons();
+            break;
+
+            case 'next':
+                onTurnNextPage();
+            break;
+            case 'end':
+                onTurnEndtPage()
+            // break;
+            // default:
+                //555 
         }
     }
 
-
-// END 
-    const endtBtnEl = document.querySelector('[data-turn="end"]');
-    endtBtnEl.addEventListener('click', onTurnEndtPage);
-
-    function onTurnEndtPage() {
-
-        // if(currentPage < totalPage) {
-        //     turnBtnsArray[currentPage-1].classList.remove('turn-active');
-        //     currentPage = totalPage;
-            
-        //     // console.log('currentPage', currentPage);
-        //     onRender();
-        // }
-
-        if(currentPage === totalPage) {
-            console.log('Тиць');
-            return
-        }
-        else {
-            // 1. Если Страниц менее равно чем кнопок
-            if(totalPage <= maxBtn) {
-                turnBtnsArray[currentBtn-1].classList.remove('turn-active');//remove Color
-                currentBtn = howManyBtn;
-                currentPage = totalPage;
-                turnBtnsArray[currentBtn-1].classList.add('turn-active');//active Color 
-                onRender();
-                console.log('currentBtn', currentBtn);
-                console.log('currentPage', currentPage);
-                return
-            }
-            // 1. Если Страниц больше чем кнопок 
-            else {
-                turnBtnsArray[currentBtn-1].classList.remove('turn-active');//remove Color
-                currentBtn = howManyBtn;
-                currentPage = totalPage;
-                turnBtnsArray[currentBtn-1].classList.add('turn-active');//active Color 
-
-                for(let i=0; i< maxBtn; i++) {
-                
-                    if(i === 0) {
-                        turnBtnsArray[i].textContent = '...';
-                    }
-                    else {
-                        turnBtnsArray[i].textContent = currentPage + i + 1 - maxBtn;
-                    }
-                } 
-
-                onRender();
-                console.log('currentBtn', currentBtn);
-                console.log('currentPage', currentPage);
-                return
-            }
-        }
-    }
 
 
 //========= TURN totalPageS Конец ===============
@@ -340,7 +224,8 @@ function onRemoveBook(event) {
     const numDataSet = Number(event.target.dataset.set);
     const indexDelete = numDataSet + (currentPage - 1) * perPage;
     bookList.splice(indexDelete, 1);
-    totalBook -= 1; //удалили книгу с памяти массива
+    totalBook = bookList.length; //удалили книгу с памяти массива
+    saveShoppingList(bookList);
 
     //Если книг нет Выход 
     if(!totalBook) { 
@@ -349,31 +234,39 @@ function onRemoveBook(event) {
     }
     // Если книги есть
 
+    //--Turn-------------------
     let lastTotalPage = totalPage; // Прошлое количество страниц
     totalPage = Math.ceil(totalBook / perPage); // Новое количество страниц
 
     // Если стало на 1 страницу меньше
     if(totalPage < lastTotalPage) {
 
+        howManyBtn = onHowManyBtn();
+
         if(totalPage <= maxBtn) {
             if(currentBtn > 1) {
+                turnBtnsArray[currentBtn-1].classList.remove('turn-active');//remove Color
                 currentBtn --;
-            }
-          
-            if(currentPage > 1) {
                 currentPage --;
             }
-            console.log('d', currentBtn, currentPage);
-            howManyBtn = onHowManyBtn();
-            onRenderButtons();
+        
+            onShowButtons();
+            onWriteButtons();
         }
-                 
+        else {
+            if(currentPage > totalPage) {
+                currentPage = totalPage;
+                onWriteButtons();
+            }
+        }     
+       
     }
 
-        lastPerPage = makeLastPerPage(); //Остаток книг
-        onRender();     
-    
+    lastPerPage = makeLastPerPage(); //Остаток книг
+    onRender(); 
 }
+
+
 
 
 
@@ -388,16 +281,16 @@ function onRemoveBook(event) {
 
 function onRender() {
     if(totalBook) { //Если книги есть
-        emptyBookEl.classList.add('is-hidden'); // ховаємо вікно відсутніх книжок
+        if(!emptyBookEl.classList.contains('is-hidden')) {
+            emptyBookEl.classList.add('is-hidden'); // ховаємо вікно відсутніх книжок
+        }
         shoplistBtn.classList.remove('is-hidden');//відображаємо кнопки листання
     }
     else {
         console.log('Книг нет');
         return
     }
-    //               6               2           3
     numberRender = totalBook >= (currentPage * perPage) ? perPage : lastPerPage;
-      console.log('numberRender', numberRender);
 
     const x = (currentPage-1) * perPage;
     const itemArr = []; //Массив для рендеру html 
@@ -406,7 +299,7 @@ function onRender() {
         const markaup = `
             <li class="shopping-item">
                 <div class="item-card-thumb">
-                    <img src="${bookList[i+x].coverImage}" alt="book">
+                    <img src="${bookList[i+x].book_image}" alt="book">
                 </div>       
                 <div class="item-card-wrap">
                     <h3 class="item-card-title">${bookList[i+x].title}</h3>
@@ -439,12 +332,10 @@ function onRender() {
     removeBookBtns = document.querySelectorAll('.remove-btn'); // []
     for (let i=0; i < numberRender; i++) {
         removeBookBtns[i].addEventListener('click', onRemoveBook);
-        // console.log('addEventListener', i);
     }
 }
 
-
-
+onRender();
 
 
 
@@ -462,7 +353,8 @@ function onResetList() {
     shoppingListEl.innerHTML = '';
 
 
-    turnBtnsArray = [firstBtnEl, secondBtnEl, thirdBtnEl, restBtnEl];
+    // turnBtnsArray = [1, 2, 3, 4];
+    // turnBtnsArray = [firstBtnEl, secondBtnEl, thirdBtnEl, restBtnEl];
 
     for(let i=0; i<turnBtnsArray.length; i++) {
         if(turnBtnsArray[i].classList.contains('is-hidden')){
@@ -485,13 +377,89 @@ function onResetList() {
     howManyBtn = onHowManyBtn(); // Сколько кнопок TURN должно отбражаться 1-4
     currentBtn = 1; // текущая активная кнопка
     maxBtn = onmaxBtn(); //Максимальное ко-во кнопок  3 / 4
-    turnBtnsArray = makeBtnsArr(); //создаем массив динамических кнопок пагинации
-    onRenderButtons(); // отображаем динамические кнопки пагинации из массива
+    // turnBtnsArray = makeBtnsArr(); //создаем массив динамических кнопок пагинации
+    // onRenderButtons(); // отображаем динамические кнопки пагинации из массива
+    onShowButtons();
+    // onWriteButtons();
 
     //классы прицепить
 
 }
 
+
+// NEXT
+
+function onTurnNextPage() {
+    if(currentPage < totalPage) {
+        if((currentBtn === maxBtn - 1) && (totalPage > currentPage + 1)) {
+            //write
+            currentPage ++;
+        }
+        else {
+            // move
+            turnBtnsArray[currentBtn-1].classList.remove('turn-active');//remove Color
+            currentPage ++;
+            currentBtn ++;
+        }
+        onRender();
+        onWriteButtons();
+    }
+}
+
+
+// PREVIOS
+
+function onTurnPrevPage() {
+    if(currentPage === 1) {
+        console.log('тиць');
+        return
+    }
+    if(currentBtn === 2 && currentPage > 2) {
+        //write
+        currentPage --;
+    }
+    else {
+        // move
+        turnBtnsArray[currentBtn-1].classList.remove('turn-active');//remove Color
+        currentPage --;
+        currentBtn --;
+    }
+    onRender();
+    onWriteButtons();
+}
+
+
+
+// START 
+
+function onTurnStartPage() {
+    if(currentBtn === 1) {
+        console.log('тиць');
+        return
+    }
+    // move
+    turnBtnsArray[currentBtn-1].classList.remove('turn-active');//remove Color
+    currentPage = 1;
+    currentBtn = 1;
+    onRender();
+    onWriteButtons();
+}
+
+
+// END 
+
+function onTurnEndtPage() {
+    if(currentBtn === howManyBtn) {
+        console.log('тиць');
+        return
+    }
+    // move
+    turnBtnsArray[currentBtn-1].classList.remove('turn-active');//remove Color
+    currentPage = totalPage;
+    currentBtn = howManyBtn;
+    onRender();
+    onWriteButtons();
+}
 
 
 
@@ -530,221 +498,36 @@ function onmaxBtn() {
 
 
 
-function makeBtnsArr() {
-    if(isMobileScreen){
-        return [firstBtnEl, secondBtnEl, restBtnEl];// Массив динамических кнопок (2 3 ...)
+
+
+
+
+// Показываем кнопки
+function onShowButtons() {
+    for(let i=0; i< maxBtn; i++) {
+        if(!turnBtnsArray[i].classList.contains('is-hidden')) {
+            turnBtnsArray[i].classList.add('is-hidden');
+        }
     }
-    else {
-        return [firstBtnEl, secondBtnEl, thirdBtnEl, restBtnEl];// Массив динамических кнопок (2 3 ...)
+    for(let j=0; j< howManyBtn; j++) {
+        turnBtnsArray[j].classList.remove('is-hidden');
     }
 }
 
-
-
-
-function onRenderButtons() {
-
-    // добавление классов
-    for(let i=0; i<turnBtnsArray.length; i++) {
-        turnBtnsArray[i].classList.remove('turn-active');//remove Color
-        if(turnBtnsArray[i].classList.contains('is-hidden')){
-            continue
-        }
-        turnBtnsArray[i].classList.add('is-hidden');
-    }
-
-    turnBtnsArray[currentBtn-1].classList.add('turn-active');// active Color
-
-
-    // Если страниц менее = как кнопок
-    if(totalPage <= maxBtn) {
-        for(let i=0; i< howManyBtn; i++) {
-            turnBtnsArray[i].classList.remove('is-hidden');
-            turnBtnsArray[i].textContent = i+1; //1
-        }
-        return
-    }
-
-    // Если страниц больше чем кнопок
+// Записываем значения
+function onWriteButtons() {
     for(let i=0; i< howManyBtn; i++) {
-        turnBtnsArray[i].classList.remove('is-hidden');
-
-
-
-        if(i === maxBtn-1) {
+        if(currentPage - currentBtn && !i) {
             turnBtnsArray[i].textContent = '...';
-            return
         }
-        turnBtnsArray[i].textContent = i+1; 
-
-
-
+        else if((totalPage - currentPage > maxBtn - currentBtn) && i === howManyBtn - 1) {
+            turnBtnsArray[i].textContent = '...';
+        }
+        else {
+            turnBtnsArray[i].textContent = currentPage - (currentBtn - 1) + i; //1
+        }
     }
-    //====================
-
-
+    turnBtnsArray[currentBtn-1].classList.add('turn-active');// active Color
 }
 
 
-
-// ЛЕНА
-
-// const bookDetails = {};
-
-// fetch(apiUrl)
-//   .then(response => response.json())
-//   .then(data => {
-//     bookDetails.title = data.title;
-//     bookDetails.author = data.author;
-//     bookDetails.description = data.description;
-//     bookDetails.coverImage = data.coverImage;
-//     bookDetails.purchaseLinks = data.purchaseLinks;
-//     updateModal();
-
-
-//     const bookList = JSON.parse(localStorage.getItem('bookList')) || [];
-//     bookList.push(bookDetails);
-//     localStorage.setItem('bookList', JSON.stringify(bookList));
-
-//   })
-//   .catch(error => console.error(error));
-
-// ЛЕНА / 
-
-
-
-
-
-
-
-
-
-// function makePerRage() {
-//     // const viewportHeight = window.innerHeight;      // Высота экрана
-//     // const viewportWidth = window.innerWidth;
-
-//     // Количество книг на страницу от ширины экрана
-//     if(window.innerWidth > 767) {
-//         return 3;
-//     }
-//     return 4;
-//     // const listHeight = viewportHeight - 278;
-//     // console.log('quantity:',  Math.floor(listHeight / 170));
-//     // return Math.floor((listHeight + 20) / (170+20));
-// }
-
-
-// // Get book details from API
-// const bookId = 'bookId';
-// const apiUrl = https://books-backend.p.goit.global/books/${bookId};
-// const bookList = {};
-
-// fetch(apiUrl)
-//   .then(response => response.json())
-//   .then(data => {
-//     bookList.title = data.title;
-//     bookList.author = data.author;
-//     bookList.description = data.description;
-//     bookList.coverImage = data.coverImage;
-//     bookList.purchaseLinks = data.purchaseLinks;
-//     updateModal();
-
-//     // Add book details to the bookList array
-//     const bookList = JSON.parse(localStorage.getItem('bookList')) || [];
-//     bookList.push(bookList);
-//     localStorage.setItem('bookList', JSON.stringify(bookList));
-//   })
-//   .catch(error => console.error(error));
-
-// // Update modal with book details
-// function updateModal() {
-//   const modal = document.querySelector('.modal');
-//   const bookListContainer = document.querySelector('.book-details');
-
-//   // Create modal content with book details
-//   const modalContent = 
-//     <div class="book-info">
-//       <img src="${bookList.coverImage}" alt="Book Cover" />
-//       <div>
-//         <h2>${bookList.title}</h2>
-//         <p>by ${bookList.author}</p>
-//         <p>${bookList.description}</p>
-//       </div>
-//     </div>
-//     <div class="purchase-links">
-//       <h3>Buy Now:</h3>
-//       <ul>
-//         ${bookList.purchaseLinks.map(link => 
-//           <li>
-//             <a href="${link.url}" target="_blank" rel="noopener noreferrer">
-//               <img src="${link.logoUrl}" alt="${link.name}" />
-//             </a>
-//           </li>
-//         ).join('')}
-//       </ul>
-//     </div>
-//     <div class="shopping-list">
-//       <button class="add-to-list-btn">Add to Shopping List</button>
-//       <button class="remove-from-list-btn">Remove from Shopping List</button>
-//     </div>
-//   ;
-//   bookListContainer.innerHTML = modalContent;
-// }
-// ось js та там є масив з збереженням у локал сторедж
-
-
-
-
-
-
-// Автоматический отступ  сверху
-    // узнаем высоту поля form
-    // const formHeight = formEl.getBoundingClientRect().height;
-
-    // применяэм высоту body padding-top:
-    // document.body.style = `padding-top: ${formHeight + 18}px`;
-    // document.body.style.paddingTop = `${formHeight + 18}px`;
-   
-// Автоматический отступ  сверху
-
-
-
-
-
-
-
-// function onRender() {
-//     console.log('onRender');
-//     const markaup = `
-//             <li class="shopping-item">
-//                 <div class="item-card-thumb">
-//                     <img src="./images/img/IMG_9606 1.png" alt="book">
-//                 </div>
-                
-//                 <div class="item-card-wrap">
-//                     <h3 class="item-card-title">I will find you</h3>
-//                     <p class="item-card-category">Hardcover fiction</p>
-//                     <p class="item-card-desc">David Burroughs was once a devoted father to his three-year-old son Matthew, living a dream life just a short drive away from the working-class suburb where he and his wife, Cheryl, first fell in love--until one fateful night when David woke suddenly to discover Matthew had been murdered while</p>
-                    
-//                     <div class="item-card-bottom-wrap">
-//                         <p class="item-card-author">Harlan Coben</p>
-//                         <ul class="item-card-stores-wrap">
-//                             <li class="item-card-icons">
-//                                 <img src="./images/icon/amazon.png" width="32" alt=" ">
-//                             </li>
-//                             <li class="item-card-icon">
-//                                 <img src="./images/icon/Book.png" width="16" alt=" ">
-//                             </li>
-//                             <li class="item-card-icon">
-//                                 <img src="./images/icon/BookShop.png" width="16" alt=" ">
-//                             </li>
-//                         </ul>
-//                     </div>
-//                     <button class="remove-btn">dl</button>
-//                 </div>
-//             </li>
-//     `;
-
-//     // shoppingListEl.innerHTML = markaup;
-//     shoppingListEl.insertAdjacentHTML("beforeend", markaup);
-// }
