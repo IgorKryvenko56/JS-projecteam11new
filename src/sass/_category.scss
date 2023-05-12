@@ -28,7 +28,10 @@
   .categories-list::-webkit-scrollbar-thumb:hover {
     background-color: var(--light-grey);
   }
-  
+  aside {
+ 
+     flex-direction: initial;
+ }
   .categories-item {
     font-family: 'DM Sans';
     font-style: normal;
@@ -83,10 +86,7 @@
       margin-bottom: 32px;
     }
   
-  aside {
- 
-     flex-direction: initial;
- }
+  
 }  
   @media screen and (min-width: 1440px) {
     .categories-section {
