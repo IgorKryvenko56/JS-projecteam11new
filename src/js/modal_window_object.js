@@ -144,7 +144,7 @@ function saveShoppingList(shoppingList) {
 //   }
 // });
 
-// closeButton.addEventListener('click', hideModal);
+  closeButton.addEventListener('click', hideModal);
 
 // modalContent.addEventListener('click', event => {
 //   if (event.target === modalContent) {
