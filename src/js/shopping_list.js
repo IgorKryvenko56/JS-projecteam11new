@@ -4,15 +4,11 @@ console.log('my_shopping-list-Серг');
 //http://localhost:1234/shopping_books.html
 
 
-// import {bookList} from './shopping_data.js';
-
-
-
-//     const bookList = JSON.parse(localStorage.getItem('bookList')) || [];
-//     bookList.push(bookDetails);
-//     localStorage.setItem('bookList', JSON.stringify(bookList));
-
-
+import {bookList_2} from './shopping_data.js';
+// IMAGES
+import Amazon from '../images/icon/amazon.png';
+import Book from '../images/icon/Book.png';
+import BookShop from '../images/icon/BookShop.png';
 
 
 
@@ -36,37 +32,26 @@ const shList = [
 
 
 
-function saveShoppingList(shList) {
-    localStorage.setItem(keyLockal, JSON.stringify(shList));
+// function saveShoppingList(shList) {
+//     localStorage.setItem(keyLockal, JSON.stringify(shList));
+// }
+function saveShoppingList(bookL) {
+    localStorage.setItem(keyLockal, JSON.stringify(bookL));
 }
 
 // saveShoppingList(shList);
 
 
 
+const titleEl = document.querySelector('.shopping-title');
+titleEl.addEventListener('click', onDataTest);
 
-// function saveShoppingList(shoppingList) {
-//     localStorage.setItem('shoppingList', JSON.stringify(shoppingList));
-//   }
-
-// function getShoppingList() {
-//     const shoppingList = localStorage.getItem('shoppingList');
-//     return shoppingList ? JSON.parse(shoppingList) : [];
-//   }
-
-
-
-
-// IMAGES
-import Amazon from '../images/icon/amazon.png';
-import Book from '../images/icon/Book.png';
-import BookShop from '../images/icon/BookShop.png';
-
-
-// let booksLocalStorage = [1, 2, 3, 4, 5];
-
-// const titleEl = document.querySelector('.shopping-title');
-// titleEl.addEventListener('click', onRender);
+function onDataTest() {
+    saveShoppingList(bookList_2);
+    getShoppingList();
+    onResetList();
+    onRender(); 
+}
 
 let isMobileScreen = onMobileScreen(); //Мобильная версия? true. false
 
