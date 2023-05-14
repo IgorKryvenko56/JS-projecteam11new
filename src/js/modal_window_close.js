@@ -31,3 +31,27 @@ document.addEventListener('keydown', event => {
     closeModal();
   }
 });
+// // Get the open-close button element
+// const openCloseButton = document.getElementById('open_close_button');
+
+// // Get the modal element
+// const modal = document.getElementById('modal');
+
+// // Function to open the modal
+// function openModal() {
+//   modal.style.display = 'block';
+// }
+
+// // Function to close the modal
+// function closeModal() {
+//   modal.style.display = 'none';
+// }
+
+// // Attach click event listener to the open-close button
+// openCloseButton.addEventListener('click', function() {
+//   if (modal.style.display === 'block') {
+//     closeModal();
+//   } else {
+//     openModal();
+//   }
+// });
