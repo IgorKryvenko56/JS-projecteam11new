@@ -23,7 +23,7 @@ function openModal(event) {
 }
 function getBookData(bookId) {
   console.log(bookId);
-  fetchingByBook(bookId).then(book => {
+  return fetchingByBook(bookId).then(book => {
     console.log(book);
 
     const markup = `<div class="img-book" style="background-image: url('${book.book_image}');   background-size: cover;">
@@ -62,12 +62,28 @@ function getBookData(bookId) {
                     <button type="submit" class="js-add-to-shopping-list" data-id="${book._id}">Add to Shopping List</button>
                      `;
     modalContent.innerHTML = markup;
-
-    const addToShoppingListButton = modalContent.querySelector(
-      '.js-add-to-shopping-list'
-    );
-    addToShoppingListButton.addEventListener('click', addToShoppingList);
-  });
+    return book;
+  })
+    .catch(error => {
+      console.log('catch error', error);
+    });
+}
+function openModal(event) {
+  if (event.target.closest('.item-category-book')) {
+    const bookElement = event.target.closest('.item-category-book');
+    const bookId = bookElement.dataset.bookId;
+    getBookData(bookId)
+      .then(bookData => {
+        showModal(bookData);
+        const addToShoppingListButton = modalContent.querySelector(
+          '.js-add-to-shopping-list'
+        );
+        addToShoppingListButton.addEventListener('click', addToShoppingList);
+      })
+      .catch(error => {
+        console.log('Error getting book data:', error);
+      });
+  }
 }
 
 function showModal(bookData) {
