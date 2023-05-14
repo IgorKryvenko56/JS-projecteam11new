@@ -66,10 +66,10 @@ function getBookData(bookId) {
     modalContent.innerHTML = markup;
   });
 }
-function showModal(bookId) {
-  //   console.log(Open modal for book with ID: ${bookId});
-  modal.style.display = 'block';
-}
+// function showModal(bookId) {
+//   //   console.log(Open modal for book with ID: ${bookId});
+//   modal.style.display = 'block';
+// }
 function showModal(bookData) {
   modal.style.display = 'block';
 
