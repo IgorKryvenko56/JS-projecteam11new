@@ -1,12 +1,6 @@
-
-// http://localhost:1234/shopping_list.html
-// npm start
-
 // ==== ВРЕМЕННО
 .temp-header {
     height: 64px;
-    // outline: 1px solid blue;
-    // text-align: center;
     padding-left: 50px;
     padding-top: 10px;
 }
@@ -16,7 +10,6 @@ body {
 }
 
 .container {
-    // border: 1px solid black;
     padding-top: 0;
     padding-bottom: 0;
 
@@ -27,14 +20,9 @@ body {
       }
 }
 
-// red
-// @media screen and (min-width: 768px) and (max-width: 1199px)
-
 // ======= WRAPPER =======
 
 .shopping-list-wrapper {
-    // flex-shrink: 0;
-    // display: flex;
     width: 100%;
 
     margin-left: auto;
@@ -48,16 +36,6 @@ body {
         max-width: 996px;
         margin-right: 0;
     }
-
-
-    // max-height: 100vh;
-
-
-    // outline: 1px solid brown;
-    // max-height: 100%;
-    // height: 100vh;
-    // overflow: hidden;
-    // background-color: yellow;
     
 }
 
@@ -71,24 +49,17 @@ body {
     }
     
     .save-uk {
-        // flex-shrink: 0;
         display: block;
         width: 356px;
         height: 630px;
-        // border: 1px solid green;
-        // margin-top: 40px;
-        // background-color: rgba(0, 0, 255, 0.2);
     }
 }
 
 
 
 // ======= TITLE =======
-// @media screen and (min-width: 768px) and (max-width: 1199px)
 
 .shopping-title {
-    // font-family: 'DM Sans';
-    // font-style: normal;
     font-weight: 700;
     font-size: 48px;
     line-height: 1.08;
@@ -99,10 +70,8 @@ body {
     @media screen and (max-width: 767px) {
         font-size: 32px;
         line-height: 1.19;
-        // margin-bottom: 120px;
     }
     letter-spacing: -0.04em;
-    // color: #111111;
     color: var(--text-dark);
 
     
@@ -110,8 +79,6 @@ body {
 
 .shopping-title span {
     color: #4F2EE8;
-    // color: var(--active-category-color);
-    // --active-category-color: #4F2EE8;
 }
 
 
@@ -119,9 +86,6 @@ body {
 
 .empty-book-wrapper {
     display: block;
-    // display: none;
-    // width: 265px;
-    // border: 1px solid black;
     margin-top: 140px;
 
     @media screen and (max-width: 767px) {
@@ -139,7 +103,6 @@ body {
 
 .empty-book-text-wrapper {
     padding: 0 15px;
-    // text-align: center;
 }
 
 .empty-book-text {
@@ -149,9 +112,6 @@ body {
     font-size: 14px;
     line-height: 18px;
     letter-spacing: -0.02em;
-
-    // color: rgba(0, 0, 0, 0.6);
-    // color: #11111199;
     color: var(--text-light);
     
 }
@@ -172,12 +132,6 @@ body {
     // border: 1px solid red;
     margin-left: auto;
     margin-right: auto;
-    // width: 335px;
-    // background-color: #EEE;
-
-    // max-height: calc(100vh - 64px - 118px - 96px);
-    // height: calc(100vh - 64px - 118px - 96px - 45px);
-    // height: 100%;
     overflow: hidden;
     overflow: auto;
     
@@ -187,8 +141,6 @@ body {
     position: relative;
     display: flex;
     border: 2px solid rgba(79, 46, 232, 0.4);
-    // width: 335px;
-    // height: 213px;
     padding: 24px;
     // width: 100%;
 
@@ -197,20 +149,10 @@ body {
         padding: 14px;
     }
 
-    
-    // height: 80px;
-    // margin: 20px 0;
-    // margin-bottom: 20px;
-    // padding: 14px;
-
     border-radius: 16px;
     text-align: center;
     // background-color: #fff;
     background-color: var(--header-bg-color);
-
-    // transition: all 250ms linear;
-
-
 }
 
 .shopping-item:not(:last-child) {
@@ -229,7 +171,6 @@ body {
     width: 114px;
     height: 162px;
     margin-right: 24px;
-    // background-image: url("../images/img/IMG_96061.png");
 
     @media screen and (max-width: 767px) {
         width: 100px;
@@ -238,12 +179,8 @@ body {
     }
     
     border-radius: 8px;
-    // border: 1px solid red;
     background-color: #ccc;
     overflow: hidden;
-    // object-fit: contain;
-    // object-fit: cover;
-    
 }
 
 .item-card-title {
@@ -253,8 +190,6 @@ body {
     line-height: 18px;
     letter-spacing: -0.04em;
     text-transform: uppercase;
-
-    // color: #111111;
     color: var(--text-dark);
 
     text-align: left;
@@ -267,8 +202,6 @@ body {
     font-size: 12px;
     line-height: 14px;
     letter-spacing: 0.03em;
-
-    // color: #B4AFAF;
     color: var(--light-grey);
 
     text-align: left;
@@ -282,13 +215,7 @@ body {
     font-size: 14px;
     line-height: 18px;
     letter-spacing: -0.04em;
-
-    // outline: 1px solid black;
-
-    // color: #111111;
     color: var(--text-dark);
-
-    // width: 500px;
     width: 100%;
     margin-bottom: 40px;
 
@@ -349,9 +276,6 @@ body {
     overflow: hidden;
 
 }
-// .item-card-img-amazon {
-//     width: 32px;
-// }
 
 .remove-btn {
     position: absolute;
@@ -376,14 +300,8 @@ body {
     border: none;
     border-radius: 50%;
     background-color: #4F2EE8;
-    // background-color: red;
-    // background-color: var(--active-category-color);
     color: #fff;
 }
-
-
-
-
 
 
 
@@ -392,14 +310,11 @@ body {
 .shopping-list-btn {
     display: flex;
     justify-content: center;
-    // justify-content: space-around;
     padding-top: 40px;
     @media screen and (max-width: 767px) {
         padding-top: 20px;
     }
     padding-bottom: 40px;
-    // margin-bottom: 40px;
-    // display: none;
 }
 
 .shopping-list-btn li:not(:last-child) {
@@ -421,9 +336,7 @@ body {
    
     border-radius: 50%;
     border: none;
-    // border: 1px solid black;
     border: 1px solid var(--border);
-    // background-color: greenyellow;
 }
 
 .shopping-list-btn.is-hidden {
@@ -433,7 +346,6 @@ body {
 .turn-start,
 .turn-prev {
     background-color: #111111;
-    // background-color: var(--text-dark);
     color: #B4AFAF;
 }
 
@@ -462,13 +374,6 @@ body {
     border: var(--border);
    
 }
-
-
-// @media screen and (max-width: 767px) {
-//     .turn-third {
-//         display: none;
-//     }
-// }
 
 .first.is-hidden {
     display: none;
