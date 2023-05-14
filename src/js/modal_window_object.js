@@ -62,6 +62,11 @@ function getBookData(bookId) {
                     <button type="submit" class="js-add-to-shopping-list" data-id="${book._id}">Add to Shopping List</button>
                      `;
     modalContent.innerHTML = markup;
+
+    const addToShoppingListButton = modalContent.querySelector(
+      '.js-add-to-shopping-list'
+    );
+    addToShoppingListButton.addEventListener('click', addToShoppingList);
   });
 }
 
@@ -73,10 +78,10 @@ function showModal(bookData) {
     button.addEventListener('click', hideModal);
   });
 
-  const addToShoppingListButton = modalContent.querySelector(
-    '.js-add-to-shopping-list'
-  );
-  addToShoppingListButton.addEventListener('click', addToShoppingList);
+//   const addToShoppingListButton = modalContent.querySelector(
+//     '.js-add-to-shopping-list'
+//   );
+//   addToShoppingListButton.addEventListener('click', addToShoppingList);
 }
 const platformLogos = modalContent.querySelectorAll('.platform-logo');
 platformLogos.forEach(logo => {
@@ -93,16 +98,16 @@ function hideModal() {
   modal.style.display = 'none';
 }
 
-function addToShoppingList(event) {
-  const bookId = event.target.dataset.id;
-  const shoppingList = getShoppingList();
-  const bookData = getBookData(bookId);
+// function addToShoppingList(event) {
+//   const bookId = event.target.dataset.id;
+//   const shoppingList = getShoppingList();
+//   const bookData = getBookData(bookId);
 
-  if (!isBookInShoppingList(bookId, shoppingList)) {
-    shoppingList.push(bookData);
-    saveShoppingList(shoppingList);
-  }
-} 
+//   if (!isBookInShoppingList(bookId, shoppingList)) {
+//     shoppingList.push(bookData);
+//     saveShoppingList(shoppingList);
+//   }
+// } 
 
 function getShoppingList() {
   const shoppingList = localStorage.getItem('shoppingList');
@@ -113,10 +118,20 @@ function isBookInShoppingList(bookId, shoppingList) {
   return shoppingList.some(book => book.id === bookId);
 }
 
-function addToShoppingList(bookId, shoppingList) {
+// function addToShoppingList(bookId, shoppingList) {
+//   const bookData = getBookData(bookId);
+//   shoppingList.push(bookData);
+// }
+function addToShoppingList(event) {
+  const bookId = event.target.dataset.id;
+  const shoppingList = getShoppingList();
   const bookData = getBookData(bookId);
-  shoppingList.push(bookData);
-}
+
+  if (!isBookInShoppingList(bookId, shoppingList)) {
+    shoppingList.push(bookData);
+    saveShoppingList(shoppingList);
+  }
+} 
 
 function removeFromShoppingList(bookId, shoppingList) {
   const bookIndex = shoppingList.findIndex(book => book.id === bookId);
