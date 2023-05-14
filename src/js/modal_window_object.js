@@ -1,8 +1,7 @@
-import axios from 'axios';
-
 import amazon from '../images/icon/amazon.png';
 import appleBooks from '../images/icon/Book.png';
 import bookShop from '../images/icon/BookShop.png';
+import axios from 'axios';
 
 const bookGallery = document.querySelector('.book-gallery');
 const modal = document.querySelector('.modal');
@@ -12,9 +11,10 @@ const closeButton = modal.querySelector('.js-modal-close');
 if (bookGallery) {
   bookGallery.addEventListener('click', openModal);
 }
-
 function openModal(event) {
   if (event.target.closest('.item-category-book')) {
+    //   const bookId = event.target.closest('.item-category-book').dataset.bookId;
+    //   showModal(bookId);
     const bookElement = event.target.closest('.item-category-book');
     const bookId = bookElement.dataset.bookId;
     const bookData = getBookData(bookId);
@@ -23,7 +23,7 @@ function openModal(event) {
 }
 function getBookData(bookId) {
   console.log(bookId);
-  return fetchingByBook(bookId).then(book => {
+  fetchingByBook(bookId).then(book => {
     console.log(book);
 
     const markup = `<div class="img-book" style="background-image: url('${book.book_image}');   background-size: cover;">
@@ -62,30 +62,12 @@ function getBookData(bookId) {
                     <button type="submit" class="js-add-to-shopping-list" data-id="${book._id}">Add to Shopping List</button>
                      `;
     modalContent.innerHTML = markup;
-    return book;
-  })
-    .catch(error => {
-      console.log('catch error', error);
-    });
+  });
 }
-function openModal(event) {
-  if (event.target.closest('.item-category-book')) {
-    const bookElement = event.target.closest('.item-category-book');
-    const bookId = bookElement.dataset.bookId;
-    getBookData(bookId)
-      .then(bookData => {
-        showModal(bookData);
-        const addToShoppingListButton = modalContent.querySelector(
-          '.js-add-to-shopping-list'
-        );
-        addToShoppingListButton.addEventListener('click', addToShoppingList);
-      })
-      .catch(error => {
-        console.log('Error getting book data:', error);
-      });
-  }
-}
-
+// function showModal(bookId) {
+//   //   console.log(Open modal for book with ID: ${bookId});
+//   modal.style.display = 'block';
+// }
 function showModal(bookData) {
   modal.style.display = 'block';
 
@@ -94,10 +76,10 @@ function showModal(bookData) {
     button.addEventListener('click', hideModal);
   });
 
-//   const addToShoppingListButton = modalContent.querySelector(
-//     '.js-add-to-shopping-list'
-//   );
-//   addToShoppingListButton.addEventListener('click', addToShoppingList);
+  const addToShoppingListButton = modalContent.querySelector(
+    '.js-add-to-shopping-list'
+  );
+  addToShoppingListButton.addEventListener('click', addToShoppingList);
 }
 const platformLogos = modalContent.querySelectorAll('.platform-logo');
 platformLogos.forEach(logo => {
@@ -114,30 +96,6 @@ function hideModal() {
   modal.style.display = 'none';
 }
 
-// function addToShoppingList(event) {
-//   const bookId = event.target.dataset.id;
-//   const shoppingList = getShoppingList();
-//   const bookData = getBookData(bookId);
-
-//   if (!isBookInShoppingList(bookId, shoppingList)) {
-//     shoppingList.push(bookData);
-//     saveShoppingList(shoppingList);
-//   }
-// } 
-
-function getShoppingList() {
-  const shoppingList = localStorage.getItem('shoppingList');
-  return shoppingList ? JSON.parse(shoppingList) : [];
-}
-
-function isBookInShoppingList(bookId, shoppingList) {
-  return shoppingList.some(book => book.id === bookId);
-}
-
-// function addToShoppingList(bookId, shoppingList) {
-//   const bookData = getBookData(bookId);
-//   shoppingList.push(bookData);
-// }
 function addToShoppingList(event) {
   const bookId = event.target.dataset.id;
   const shoppingList = getShoppingList();
@@ -148,6 +106,20 @@ function addToShoppingList(event) {
     saveShoppingList(shoppingList);
   }
 } 
+
+function getShoppingList() {
+  const shoppingList = localStorage.getItem('shoppingList');
+  return shoppingList ? JSON.parse(shoppingList) : [];
+}
+
+function isBookInShoppingList(bookId, shoppingList) {
+  return shoppingList.some(book => book.id === bookId);
+}
+
+function addToShoppingList(bookId, shoppingList) {
+  const bookData = getBookData(bookId);
+  shoppingList.push(bookData);
+}
 
 function removeFromShoppingList(bookId, shoppingList) {
   const bookIndex = shoppingList.findIndex(book => book.id === bookId);
@@ -194,3 +166,4 @@ export async function fetchingByBook(id) {
     console.log('catch error', error);
   }
 }
+
