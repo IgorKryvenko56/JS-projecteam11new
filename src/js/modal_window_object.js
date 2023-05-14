@@ -15,8 +15,6 @@ if (bookGallery) {
 
 function openModal(event) {
   if (event.target.closest('.item-category-book')) {
-    //   const bookId = event.target.closest('.item-category-book').dataset.bookId;
-    //   showModal(bookId);
     const bookElement = event.target.closest('.item-category-book');
     const bookId = bookElement.dataset.bookId;
     const bookData = getBookData(bookId);
@@ -66,10 +64,7 @@ function getBookData(bookId) {
     modalContent.innerHTML = markup;
   });
 }
-// function showModal(bookId) {
-//   //   console.log(Open modal for book with ID: ${bookId});
-//   modal.style.display = 'block';
-// }
+
 function showModal(bookData) {
   modal.style.display = 'block';
 
@@ -81,7 +76,7 @@ function showModal(bookData) {
   const addToShoppingListButton = modalContent.querySelector(
     '.js-add-to-shopping-list'
   );
-  addToShoppingListButton.addEventListener('click', toggleShoppingList);
+  addToShoppingListButton.addEventListener('click', addToShoppingList);
 }
 const platformLogos = modalContent.querySelectorAll('.platform-logo');
 platformLogos.forEach(logo => {
@@ -98,19 +93,16 @@ function hideModal() {
   modal.style.display = 'none';
 }
 
-function toggleShoppingList() {
-  const bookId = modalContent.querySelector('.js-add-to-shopping-list').dataset
-    .bookId;
+function addToShoppingList(event) {
+  const bookId = event.target.dataset.id;
   const shoppingList = getShoppingList();
+  const bookData = getBookData(bookId);
 
-  if (isBookInShoppingList(bookId, shoppingList)) {
-    removeFromShoppingList(bookId, shoppingList);
-  } else {
-    addToShoppingList(bookId, shoppingList);
+  if (!isBookInShoppingList(bookId, shoppingList)) {
+    shoppingList.push(bookData);
+    saveShoppingList(shoppingList);
   }
-
-  saveShoppingList(shoppingList);
-}
+} 
 
 function getShoppingList() {
   const shoppingList = localStorage.getItem('shoppingList');
