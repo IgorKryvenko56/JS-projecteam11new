@@ -1,51 +1,51 @@
 //Initialize Firebase
-const config = {
-  apiKey: 'YOUR_API_KEY',
-  authDomain: 'YOUR_AUTH_DOMAIN',
-  databaseURL: 'YOUR_DATABASE_URL',
-  projectId: 'YOUR_PROJECT_ID',
-  storageBucket: 'YOUR_STORAGE_BUCKET',
-  messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
+
+import { initializeApp } from 'firebase/app';
+
+const firebaseConfig = {
+  apiKey: 'AIzaSyBoGwLhspISnegPJuqB0wKYzxjoZ720S2Y',
+  authDomain: 'modaluser-96792.firebaseapp.com',
+  projectId: 'modaluser-96792',
+  storageBucket: 'modaluser-96792.appspot.com',
+  messagingSenderId: '997260471203',
+  appId: '1:997260471203:web:acbdf87b6a5523964c4816',
 };
-firebase.initializeApp(config);
+const app = initializeApp(firebaseConfig);
 
 // Get elements
 const txtEmail = document.querySelector('input[placeholder="EMAIL"]');
 const txtPassword = document.querySelector('input[placeholder="PASSWORD"]');
-const btnSignUp = document.querySelector('.form_button_style');
-const btnLogout = document.querySelector('.btnLogout');
+const btnSignUp = document.querySelector('.form_link_sign_up');
+const btnLogout = document.querySelector('.header-button');
 
 // Add sign up event
- btnSignUp.addEventListener('click', e => {
+btnSignUp.addEventListener('click', e => {
   // Get email and password
-   const email = txtEmail.value;
-   const password = txtPassword.value;
-   const auth = firebase.auth();
-   // Sign in
-   const promise = auth.createUserWithEmailAndPassword(email, password);
-   promise.catch(e => console.log(e.message));
- });
-
-
-
- // Add logout event
- btnLogout.addEventListener('click', e => {
- firebase.auth().signOut();
+  const email = txtEmail.value;
+  const password = txtPassword.value;
+  const auth = firebase.auth();
+  // Sign in
+  const promise = auth.createUserWithEmailAndPassword(email, password);
+  promise.catch(e => console.log(e.message));
 });
 
+// Add logout event
+btnLogout.addEventListener('click', e => {
+  firebase.auth().signOut();
+});
 
 // Add a realtime listener
- firebase.auth().onAuthStateChanged(firebaseUser => {
-   if (firebaseUser) {
+firebase.auth().onAuthStateChanged(firebaseUser => {
+  if (firebaseUser) {
     console.log(firebaseUser);
     btnSignUp.textContent = firebaseUser.displayName;
     btnLogout.classList.remove('hide');
   } else {
-     console.log('not logged in');
-     btnSignUp.textContent = 'SIGN UP';
-     btnLogout.classList.add('hide');
+    console.log('not logged in');
+    btnSignUp.textContent = 'SIGN UP';
+    btnLogout.classList.add('hide');
   }
- });
+});
 
 //  Make sure you replace 'YOUR_API_KEY', 'YOUR_AUTH_DOMAIN', 'YOUR_DATABASE_URL', 'YOUR_PROJECT_ID', 'YOUR_STORAGE_BUCKET', and 'YOUR_MESSAGING_SENDER_ID'
-// with your actual Firebase project 
+// with your actual Firebase project
