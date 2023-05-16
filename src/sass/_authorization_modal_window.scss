@@ -20,16 +20,15 @@
   z-index: 2;
 }
 
-.overlay {
-  width: 1440px;
-  height: 770px;
-  background-color: #4f2ee8;
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0;
-  z-index: 1;
-}
+// .overlay {
+//   width: 1440px;
+//   height: 770px;
+//   background-color: #4f2ee8;
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   opacity: 0;
+// }
 
 @keyframes modalOpening {
   from {
