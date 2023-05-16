@@ -52,7 +52,7 @@
 //Initialize Firebase
 
 import { initializeApp } from 'firebase/app';
-import { auth } from 'firebase/auth';
+// import { auth } from 'firebase/auth';
 import { onAuthStateChanged } from 'firebase/auth';
 
 const firebaseConfig = {
