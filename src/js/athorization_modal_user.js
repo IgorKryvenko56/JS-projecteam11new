@@ -1,6 +1,8 @@
 //Initialize Firebase
 
 import { initializeApp } from 'firebase/app';
+import { auth } from 'firebase/auth';
+import { onAuthStateChanged } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBoGwLhspISnegPJuqB0wKYzxjoZ720S2Y',
@@ -35,7 +37,7 @@ btnLogout.addEventListener('click', e => {
 });
 
 // Add a realtime listener
-firebase.auth().onAuthStateChanged(firebaseUser => {
+auth.onAuthStateChanged(firebaseUser => {
   if (firebaseUser) {
     console.log(firebaseUser);
     btnSignUp.textContent = firebaseUser.displayName;
