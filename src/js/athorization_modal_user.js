@@ -1,7 +1,7 @@
 //Initialize Firebase
-
 import { initializeApp } from 'firebase/app';
-
+import { initializeApp } from 'firebase/app';
+import { onAuthStateChanged } from 'firebase/auth';
 // const firebaseConfig = {
 //   apiKey: 'AIzaSyBoGwLhspISnegPJuqB0wKYzxjoZ720S2Y',
 //   authDomain: 'modaluser-96792.firebaseapp.com',
