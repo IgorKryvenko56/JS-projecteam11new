@@ -48,8 +48,8 @@ next.addEventListener("click", function (e) {
   
   if (track.offsetHeight - index * height < height * 1) {
     next.classList.add("hide");
-    
-  } index = 0;
+  }
+  // } index = 0;
 
 if (index === 1) {
     isNextClick = true;
